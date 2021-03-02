@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <input id="file-input" type="file" />
+
+    <script>
+        const url = "http://localhost:3000/plants-info"
+        window.onload = ()=> {
+            const fileInp = document.getElementById("file-input");
+            fileInp.onchange = e => {
+                const file = e.target.files[0];
+                const formData = new FormData();
+                formData.append("image", file, file.name);
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(res => res.text())
+                .then(console.log)
+            }
+        }
+    </script>
+</body>
+</html>
