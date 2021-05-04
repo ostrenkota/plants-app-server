@@ -9,7 +9,7 @@
     <input id="file-input" type="file" />
 
     <script>
-        const url = "http://localhost:3000/plants-info"
+        const url = "http://localhost:8888/api/add-plant"
         window.onload = ()=> {
             const fileInp = document.getElementById("file-input");
             fileInp.onchange = e => {
@@ -19,6 +19,9 @@
                 fetch(url, {
                     method: 'POST',
                     body: formData,
+                    headers: {
+                        authorization: 'Bearer vk_user_id=594077'
+                    }
                 })
                 .then(res => res.text())
                 .then(alert)
