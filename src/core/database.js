@@ -7,8 +7,12 @@ const database = {
         this.plantsCollection = this.db.collection(process.env.PLANTS_COLLECTION);
         this.usersCollection = this.db.collection(process.env.USERS_COLLECTION)
     },
-    async getPlantById(plantApiId) {
+    async getPlantByApiId(plantApiId) {
         const result = await this.plantsCollection.find({plantApiId}).toArray();
+        return result[0];
+    },
+    async getPlantById(_id) {
+        const result = await this.plantsCollection.find({_id}).toArray();
         return result[0];
     },
     async getUserById(vkId) {

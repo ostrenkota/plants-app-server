@@ -9,7 +9,7 @@
     <input id="file-input" type="file" />
 
     <script>
-        const url = "http://localhost:8888/api/add-plant"
+        const url = "http://localhost:8888/api/user/add-plant"
         window.onload = ()=> {
             const fileInp = document.getElementById("file-input");
             fileInp.onchange = e => {
@@ -20,7 +20,7 @@
                     method: 'POST',
                     body: formData,
                     headers: {
-                        authorization: 'Bearer vk_user_id=594077'
+                        authorization: 'Bearer vk_user_id=123'
                     }
                 })
                 .then(res => res.text())

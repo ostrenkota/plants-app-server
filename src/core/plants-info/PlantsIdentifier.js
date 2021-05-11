@@ -23,9 +23,9 @@ async function identifyPlantType(imgPath) {
             throw new Error('unexpected status ' + status);
         }
 
-        const result = await database.getPlantById(data.results[0]?.gbif?.id);
+        const result = await database.getPlantByApiId(data.results[0]?.gbif?.id);
 
-        return result[0]._id;
+        return result._id;
     } catch (error) {
         console.error('error', error);
     }
