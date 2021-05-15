@@ -3,3 +3,4 @@
 /.env
 /public/
 /ssl/
+/package-lock.json
