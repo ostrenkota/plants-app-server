@@ -42,6 +42,18 @@ const database = {
             {vkId , "plants._id" : plantObjectId},
             {$set : {[`plants.$.${property}`] : value}}
         )
+    },
+    async deleteUserPlant(vkId, plantObjectId) {
+        return this.usersCollection.update(
+            {vkId},
+            {$pull : {'plants': {_id: plantObjectId}}}
+        )
+    },
+    async setUserProperty(vkId, property, value ) {
+        return this.usersCollection.findOneAndUpdate(
+            { vkId },
+            { $set : {[`permissions.${property}`] : value}}
+        )
     }
 }
 

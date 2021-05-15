@@ -25,7 +25,7 @@ async function identifyPlantType(imgPath) {
 
         const result = await database.getPlantByApiId(data.results[0]?.gbif?.id);
 
-        return result._id;
+        return result?._id;
     } catch (error) {
         console.error('error', error);
     }
