@@ -14,10 +14,11 @@ import userRouter from './routes/user.js';
 dotenv.config();
 const __dirname = process.cwd();
 
-const privateKey  = fs.readFileSync(__dirname + '/ssl/selfsigned.key', 'utf8');
-const certificate = fs.readFileSync(__dirname + '/ssl/selfsigned.crt', 'utf8');
+const privateKey  = fs.readFileSync(__dirname + '/ssl/private.key', 'utf8');
+const certificate = fs.readFileSync(__dirname + '/ssl/certificate.crt', 'utf8');
+const caBundle = fs.readFileSync(__dirname + '/ssl/ca_bundle.crt', 'utf8');
 
-const credentials = {key: privateKey, cert: certificate};
+const credentials = {key: privateKey, cert: certificate, ca: [caBundle]};
 
 main();
 
@@ -37,25 +38,22 @@ async function main() {
     app.use('/api/user', extractUser);
 
     app.use('/img', express.static(__dirname + '/public/img'));
+    app.use('/', express.static(__dirname + '/public'));
 
-    app.get('/', (req, res) => {
+
+    app.get('/test', (req, res) => {
         res.sendFile('src/index.html', {root: __dirname })
     })
 
     app.use('/api/user', userRouter);
     app.use('/api/plants', plantsRouter);
 
-    const port = process.env.NODE_ENV === 'production' ? 80 : 8080;
-
-   /* app.listen(port, async () => {
-        console.log(`Server start on ${port} port`);
-        const result = await database.getPlantById("7282182");
-        console.log(JSON.stringify(result));
-    });*/
+    const port = process.env.PORT || 8881;
+    const sslPort = process.env.SSL_PORT || 8443;
 
     const httpServer = http.createServer(app);
     const httpsServer = https.createServer(credentials, app);
 
-    httpServer.listen(8888);
-    httpsServer.listen(8443);
+    httpServer.listen(Number(port));
+    httpsServer.listen(Number(sslPort));
 }
